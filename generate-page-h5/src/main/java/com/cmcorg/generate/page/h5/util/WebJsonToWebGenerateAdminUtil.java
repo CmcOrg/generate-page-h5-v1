@@ -67,6 +67,9 @@ public class WebJsonToWebGenerateAdminUtil {
     private static final String ADMIN_MODAL_FORM_TITLE = "AdminModalFormTitle";
     private static final String ADMIN_ADD_ORDER_NO = "AdminAddOrderNo";
     private static final String ADMIN_TREE = "AdminTree";
+    private static final String ADMIN_DELETE_NAME = "AdminDeleteName";
+
+    private static final String ADMIN_DEFAULT_DELETE_NAME = "name";
 
     private static final String ADMIN_FORM_JSON = "AdminFormJson";
 
@@ -265,6 +268,7 @@ public class WebJsonToWebGenerateAdminUtil {
         String adminDeleteByIdSet = ADMIN_DELETE_BY_ID_SET;
         String adminInsertOrUpdate = ADMIN_INSERT_OR_UPDATE;
         String adminController = ADMIN_CONTROLLER;
+        String adminDeleteName = ADMIN_DEFAULT_DELETE_NAME;
 
         adminController = pageDTO.getFileName();
 
@@ -276,7 +280,7 @@ public class WebJsonToWebGenerateAdminUtil {
                 adminInsertOrUpdate = item.getFullUriHump();
             } else if (DELETE_BY_ID_SET.equals(item.getUri())) {
                 adminDeleteByIdSet = item.getFullUriHump();
-            } else if (PAGE.equals(item.getUri())) {
+            } else if (item.getPageFlag()) {
 
                 // 根据：tableOrderNo 降序
                 Map<String, RequestFieldDTO> returnClassFieldMap =
@@ -293,6 +297,11 @@ public class WebJsonToWebGenerateAdminUtil {
                     if (BooleanUtil.isTrue(dto.getTableIgnoreFlag())) {
                         continue;
                     }
+
+                    if (BooleanUtil.isTrue(dto.getFormDeleteNameFlag())) {
+                        adminDeleteName = subItem.getKey();
+                    }
+
                     if (ColumnTypeRefEnum.BOOLEAN.getTsType().equals(dto.getTsType())) {
                         importClassForTs(tempStrBuilder, importClassNameSet, YES_NO_DICT, IMPORT_YES_NO_DICT);
                         tableJsonStrBuilder.append(StrUtil
@@ -317,6 +326,8 @@ public class WebJsonToWebGenerateAdminUtil {
         }
 
         // 执行替换
+        tempStrBuilder =
+            StrBuilder.create(equalsAndReplace(tempStrBuilder.toString(), adminDeleteName, ADMIN_DELETE_NAME));
         tempStrBuilder =
             StrBuilder.create(equalsAndReplace(tempStrBuilder.toString(), adminInsertOrUpdate, ADMIN_INSERT_OR_UPDATE));
         tempStrBuilder = StrBuilder.create(equalsAndReplace(tempStrBuilder.toString(), adminDO, ADMIN_DO));

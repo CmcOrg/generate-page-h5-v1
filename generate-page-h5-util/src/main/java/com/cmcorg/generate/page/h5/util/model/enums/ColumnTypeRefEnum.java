@@ -145,6 +145,8 @@ public enum ColumnTypeRefEnum {
 
         if (requestFieldAnnotation != null) {
 
+            requestFieldDTO.setFormDeleteNameFlag(requestFieldAnnotation.formDeleteNameFlag());
+
             if (StrUtil.isNotBlank(requestFieldAnnotation.formTitle())) {
                 requestFieldDTO.setFormTitle(requestFieldAnnotation.formTitle());
             }

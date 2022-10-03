@@ -7,6 +7,9 @@ import lombok.Data;
 @Data
 public class RequestFieldDTO {
 
+    @Schema(description = "表单页面，是否是删除时的提示字段，备注：只会存在一个，会被后面的覆盖")
+    private Boolean formDeleteNameFlag;
+
     @Schema(description = "表单页面，字段显示用，默认为：tableTitle/description")
     private String formTitle;
 

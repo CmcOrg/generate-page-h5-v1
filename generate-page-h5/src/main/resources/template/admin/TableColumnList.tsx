@@ -24,7 +24,7 @@ AdminTableJson
                         ToastSuccess(res.msg)
                         actionRef.current?.reload()
                     })
-                }, undefined, `确定删除【${entity.name}】吗？`)
+                }, undefined, `确定删除【${entity.AdminDeleteName}】吗？`)
             }}>删除</a>,
         ],
     },

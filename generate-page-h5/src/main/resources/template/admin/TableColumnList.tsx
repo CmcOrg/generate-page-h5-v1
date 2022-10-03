@@ -8,7 +8,7 @@ const TableColumnList = (currentForm: React.MutableRefObject<AdminInsertOrUpdate
         dataIndex: 'index',
         valueType: 'index',
     },
-    AdminTableJson
+AdminTableJson
     {
         title: '操作',
         dataIndex: 'option',

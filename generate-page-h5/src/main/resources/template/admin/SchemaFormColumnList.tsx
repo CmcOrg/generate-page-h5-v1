@@ -1,4 +1,4 @@
-import {ProFormColumnsType} from "@ant-design/pro-form/lib/components/SchemaForm/typing";
+import {ProFormColumnsType} from "@ant-design/pro-components";
 import {AdminInsertOrUpdateDTO} from "@/api/admin/AdminController";
 
 export const InitForm: AdminInsertOrUpdateDTO = {} as AdminInsertOrUpdateDTO

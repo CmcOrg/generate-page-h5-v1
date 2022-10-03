@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = LogTopicConstant.JAVA_TO_WEB)
@@ -578,7 +579,7 @@ public class WebJsonToWebGenerateAdminUtil {
         File touchFile = FileUtil.touch(pageFilePath); // 再创建文件
 
         String adminDeleteByIdSet = ADMIN_DELETE_BY_ID_SET;
-        String adminDO = ADMIN_DO;
+        AtomicReference<String> adminDO = new AtomicReference<>(ADMIN_DO);
         String adminInfoById = ADMIN_INFO_BY_ID;
         String adminInsertOrUpdate = ADMIN_INSERT_OR_UPDATE;
         String adminPage = ADMIN_PAGE;
@@ -589,7 +590,10 @@ public class WebJsonToWebGenerateAdminUtil {
         String adminTree = ADMIN_TREE;
 
         adminController = pageDTO.getFileName();
-        adminDO = StrUtil.subBefore(pageDTO.getFileName(), CONTROLLER, false) + DO;
+
+        pageDTO.getRequestList().stream().filter(RequestDTO::getPageFlag).findFirst()
+            .ifPresent(it -> adminDO.set(it.getReturnRealClass().getSimpleName()));
+
         adminTsxTitle = pageDTO.getTitle();
         adminModalFormTitle = StrUtil.subBefore(pageDTO.getTitle(), MANAGE, false);
 
@@ -618,7 +622,7 @@ public class WebJsonToWebGenerateAdminUtil {
         tempStr = equalsAndReplace(tempStr, adminPage, ADMIN_PAGE);
         tempStr = equalsAndReplace(tempStr, adminDeleteByIdSet, ADMIN_DELETE_BY_ID_SET);
         tempStr = equalsAndReplace(tempStr, adminController, ADMIN_CONTROLLER);
-        tempStr = equalsAndReplace(tempStr, adminDO, ADMIN_DO);
+        tempStr = equalsAndReplace(tempStr, adminDO.get(), ADMIN_DO);
         tempStr = equalsAndReplace(tempStr, adminTsxTitle, ADMIN_TSX_TITLE);
         tempStr = equalsAndReplace(tempStr, adminModalFormTitle, ADMIN_MODAL_FORM_TITLE);
         tempStr = equalsAndReplace(tempStr, adminAddOrderNo, ADMIN_ADD_ORDER_NO);
@@ -629,7 +633,7 @@ public class WebJsonToWebGenerateAdminUtil {
         // 写入内容到文件里
         FileUtil.writeUtf8String(strBuilder.toStringAndReset(), touchFile);
 
-        return adminDO;
+        return adminDO.get();
     }
 
     /**

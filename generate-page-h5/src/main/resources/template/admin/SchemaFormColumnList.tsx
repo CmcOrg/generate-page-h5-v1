@@ -5,7 +5,7 @@ export const InitForm: AdminInsertOrUpdateDTO = {} as AdminInsertOrUpdateDTO
 
 const SchemaFormColumnList = (): ProFormColumnsType<AdminInsertOrUpdateDTO>[] => {
     return [
-        AdminFormJson
+AdminFormJson
     ]
 }
 

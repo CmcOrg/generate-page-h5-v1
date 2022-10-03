@@ -4,9 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <modules>
-        <module>generate-page-h5-v1-util</module>
-    </modules>
 
     <parent>
         <artifactId>engine-web-v1</artifactId>
@@ -17,8 +14,27 @@
     <artifactId>generate-page-h5-v1</artifactId>
     <description>生成 h5页面工具模块</description>
 
+    <modules>
+        <module>generate-page-h5-util</module>
+        <module>generate-page-h5</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
+
+            <!-- generate-page-h5 -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>generate-page-h5</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- generate-page-h5-util -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>generate-page-h5-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- auth-nacos -->
             <dependency>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>generate-page-h5-v1</artifactId>
+        <groupId>com.cmcorg</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>generate-page-h5</artifactId>
+    <description>generate-page-h5</description>
+
+    <dependencies>
+
+        <!-- generate-page-h5-util -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>generate-page-h5-util</artifactId>
+        </dependency>
+
+        <!-- auth-nacos -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>auth-nacos</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

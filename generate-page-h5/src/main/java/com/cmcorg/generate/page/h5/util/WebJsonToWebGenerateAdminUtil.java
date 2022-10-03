@@ -169,12 +169,12 @@ public class WebJsonToWebGenerateAdminUtil {
     /**
      * 生成 admin相关文件
      */
-    public static void generateAdmin(WebDTO webDTO) {
+    public static void generateAdmin(WebDTO webDTO, String fileName) {
 
         log.info("生成 admin相关文件：执行开始 =====================>");
         TimeInterval timer = DateUtil.timer();
 
-        doGenerateAdmin(webDTO);
+        doGenerateAdmin(webDTO, fileName);
 
         long interval = timer.interval();
         log.info("生成 admin相关文件：执行结束 =====================> 耗时：{}毫秒", interval);
@@ -224,7 +224,7 @@ public class WebJsonToWebGenerateAdminUtil {
     /**
      * 执行
      */
-    public static void doGenerateAdmin(WebDTO webDTO) {
+    public static void doGenerateAdmin(WebDTO webDTO, String fileName) {
 
         Set<Integer> indexSet = webDTO.getPageTypeMap().get(PageTypeEnum.ADMIN);
 
@@ -237,6 +237,10 @@ public class WebJsonToWebGenerateAdminUtil {
         for (Integer item : indexSet) {
 
             PageDTO pageDTO = webDTO.getPageList().get(item);
+
+            if (StrUtil.isNotBlank(fileName) && !pageDTO.getFileName().equals(fileName)) {
+                continue;
+            }
 
             String[] pageDirPath = getPageDirPath(pageDTO.getPath());
 

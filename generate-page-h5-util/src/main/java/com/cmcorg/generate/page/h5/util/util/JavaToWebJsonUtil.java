@@ -82,7 +82,7 @@ public class JavaToWebJsonUtil {
             ClassUtil.scanPackageByAnnotation(JavaToWebJsonUtil.PACKAGE_NAME, JavaToWebJsonUtil.WEB_PAGE_ANNOTATION);
 
         if (CollUtil.isEmpty(webPageClassSet)) {
-            log.info("page 为空");
+            log.info("【{}】下的 page为空", JavaToWebJsonUtil.PACKAGE_NAME);
             return null;
         }
 

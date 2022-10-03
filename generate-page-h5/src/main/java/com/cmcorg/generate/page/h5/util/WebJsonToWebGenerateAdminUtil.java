@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
 @Slf4j(topic = LogTopicConstant.JAVA_TO_WEB)
 public class WebJsonToWebGenerateAdminUtil {
 
-    private static final String JAVA_PATH = System.getProperty("user.dir"); // 例如：D:\GitHub\Cmc0\Game-Backend\java
-    private static final String TEMPLATE_NAME = JAVA_PATH + "/web-helper/vite-antd/src/main/resources/template/admin/";
-    private static final String PAGE_PATH = JAVA_PATH + "/web-helper/vite-antd/vite-antd/src/page/";
+    private static final String TEMPLATE_NAME =
+        "D:/GitHub/CmcOrg/generate-page-h5-v1/generate-page-h5/src/main/resources/template/admin/";
+    private static final String PAGE_PATH = "D:/GitHub/CmcOrg/frontend-h5-v1/src/page/";
 
     // 其他常量
     private static final String ADMIN_PAGE_SUF = ".tsx"; // 页面文件后缀

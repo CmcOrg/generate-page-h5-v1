@@ -23,9 +23,9 @@ import java.util.Set;
 @Slf4j(topic = LogTopicConstant.JAVA_TO_WEB)
 public class WebJsonToWebGenerateApiUtil {
 
-    private static final String JAVA_PATH = System.getProperty("user.dir"); // 例如：D:\GitHub\Cmc0\Game-Backend\java
-    private static final String TEMPLATE_NAME = JAVA_PATH + "/web-helper/vite-antd/src/main/resources/template/";
-    private static final String WEB_SRC_API_PATH = JAVA_PATH + "/web-helper/vite-antd/vite-antd/src/api/";
+    private static final String TEMPLATE_NAME =
+        "D:/GitHub/CmcOrg/generate-page-h5-v1/generate-page-h5/src/main/resources/template/";
+    private static final String WEB_SRC_API_PATH = "D:/GitHub/CmcOrg/frontend-h5-v1/src/api/";
 
     private static final String WEB_SRC_API_SUF = ".ts"; // api文件的后缀
 

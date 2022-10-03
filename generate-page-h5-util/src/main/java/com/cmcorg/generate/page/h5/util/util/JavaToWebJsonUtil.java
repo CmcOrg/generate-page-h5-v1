@@ -37,7 +37,7 @@ import java.util.*;
 @Slf4j(topic = LogTopicConstant.JAVA_TO_WEB)
 public class JavaToWebJsonUtil {
 
-    private static final String PACKAGE_NAME = "com.game";
+    private static final String PACKAGE_NAME = "com.cmcorg";
     private static final Class<WebPage> WEB_PAGE_ANNOTATION = WebPage.class;
     private static final Class<RequestMapping> REQUEST_MAPPING_ANNOTATION = RequestMapping.class;
     private static final Class<Tag> TAG_ANNOTATION = Tag.class;

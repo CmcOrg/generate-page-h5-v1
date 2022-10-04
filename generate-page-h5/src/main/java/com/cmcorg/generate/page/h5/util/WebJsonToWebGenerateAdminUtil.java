@@ -11,6 +11,7 @@ import cn.hutool.core.util.StrUtil;
 import com.cmcorg.engine.web.model.generate.model.enums.FormInputTypeEnum;
 import com.cmcorg.engine.web.model.generate.model.enums.PageTypeEnum;
 import com.cmcorg.engine.web.model.model.constant.LogTopicConstant;
+import com.cmcorg.engine.web.util.util.CallBack;
 import com.cmcorg.generate.page.h5.util.model.dto.PageDTO;
 import com.cmcorg.generate.page.h5.util.model.dto.RequestDTO;
 import com.cmcorg.generate.page.h5.util.model.dto.RequestFieldDTO;
@@ -244,11 +245,13 @@ public class WebJsonToWebGenerateAdminUtil {
 
             String[] pageDirPath = getPageDirPath(pageDTO.getPath());
 
-            String adminDO = generateAdminPage(pageDTO, strBuilder, pageDirPath);// 生成 page页面
+            CallBack<String> callBack = new CallBack<>();
+
+            String adminDO = generateTableColumnList(pageDTO, strBuilder, pageDirPath, callBack); // 生成 table页面
+
+            generateAdminPage(pageDTO, strBuilder, pageDirPath, callBack.getValue(), adminDO);// 生成 page页面
 
             generateSchemaFormColumnList(pageDTO, strBuilder, pageDirPath); // 生成 表单页面
-
-            generateTableColumnList(pageDTO, strBuilder, pageDirPath, adminDO); // 生成 table页面
 
         }
 
@@ -257,8 +260,8 @@ public class WebJsonToWebGenerateAdminUtil {
     /**
      * 生成 table页面
      */
-    private static void generateTableColumnList(PageDTO pageDTO, StrBuilder strBuilder, String[] pageDirPath,
-        String adminDO) {
+    private static String generateTableColumnList(PageDTO pageDTO, StrBuilder strBuilder, String[] pageDirPath,
+        CallBack<String> callBack) {
 
         String pageFilePath = pageDirPath[0] + ADMIN_TABLE_FILE_NAME;
 
@@ -269,12 +272,18 @@ public class WebJsonToWebGenerateAdminUtil {
         StrBuilder tempStrBuilder = StrBuilder.create(ADMIN_TABLE_TEMP);
 
         StrBuilder tableJsonStrBuilder = StrBuilder.create();
+        AtomicReference<String> adminDO = new AtomicReference<>(ADMIN_DO);
         String adminDeleteByIdSet = ADMIN_DELETE_BY_ID_SET;
         String adminInsertOrUpdate = ADMIN_INSERT_OR_UPDATE;
         String adminController = ADMIN_CONTROLLER;
         String adminDeleteName = ADMIN_DEFAULT_DELETE_NAME;
 
         adminController = pageDTO.getFileName();
+
+        callBack.setValue(adminDeleteName); // 设置：默认值
+
+        pageDTO.getRequestList().stream().filter(RequestDTO::getPageFlag).findFirst()
+            .ifPresent(it -> adminDO.set(it.getReturnRealClass().getSimpleName()));
 
         Set<String> importClassNameSet = new HashSet<>(); // 防止重复写入
         StrBuilder otherStrBuilder = StrBuilder.create(); // 对象复用
@@ -284,7 +293,7 @@ public class WebJsonToWebGenerateAdminUtil {
                 adminInsertOrUpdate = item.getFullUriHump();
             } else if (DELETE_BY_ID_SET.equals(item.getUri())) {
                 adminDeleteByIdSet = item.getFullUriHump();
-            } else if (item.getPageFlag()) {
+            } else if (PAGE.equals(item.getUri())) {
 
                 // 根据：tableOrderNo 降序
                 Map<String, RequestFieldDTO> returnClassFieldMap =
@@ -304,6 +313,7 @@ public class WebJsonToWebGenerateAdminUtil {
 
                     if (BooleanUtil.isTrue(dto.getFormDeleteNameFlag())) {
                         adminDeleteName = subItem.getKey();
+                        callBack.setValue(adminDeleteName);
                     }
 
                     if (ColumnTypeRefEnum.BOOLEAN.getTsType().equals(dto.getTsType())) {
@@ -334,7 +344,7 @@ public class WebJsonToWebGenerateAdminUtil {
             StrBuilder.create(equalsAndReplace(tempStrBuilder.toString(), adminDeleteName, ADMIN_DELETE_NAME));
         tempStrBuilder =
             StrBuilder.create(equalsAndReplace(tempStrBuilder.toString(), adminInsertOrUpdate, ADMIN_INSERT_OR_UPDATE));
-        tempStrBuilder = StrBuilder.create(equalsAndReplace(tempStrBuilder.toString(), adminDO, ADMIN_DO));
+        tempStrBuilder = StrBuilder.create(equalsAndReplace(tempStrBuilder.toString(), adminDO.get(), ADMIN_DO));
         tempStrBuilder =
             StrBuilder.create(equalsAndReplace(tempStrBuilder.toString(), adminDeleteByIdSet, ADMIN_DELETE_BY_ID_SET));
         tempStrBuilder =
@@ -346,6 +356,8 @@ public class WebJsonToWebGenerateAdminUtil {
 
         // 写入内容到文件里
         FileUtil.writeUtf8String(strBuilder.toStringAndReset(), touchFile);
+
+        return adminDO.get();
     }
 
     /**
@@ -585,7 +597,8 @@ public class WebJsonToWebGenerateAdminUtil {
     /**
      * 生成 page页面
      */
-    private static String generateAdminPage(PageDTO pageDTO, StrBuilder strBuilder, String[] pageDirPath) {
+    private static void generateAdminPage(PageDTO pageDTO, StrBuilder strBuilder, String[] pageDirPath,
+        String adminDeleteName, String adminDO) {
 
         String pageFilePath = pageDirPath[0] + pageDirPath[1] + ADMIN_PAGE_SUF;
 
@@ -594,7 +607,6 @@ public class WebJsonToWebGenerateAdminUtil {
         File touchFile = FileUtil.touch(pageFilePath); // 再创建文件
 
         String adminDeleteByIdSet = ADMIN_DELETE_BY_ID_SET;
-        AtomicReference<String> adminDO = new AtomicReference<>(ADMIN_DO);
         String adminInfoById = ADMIN_INFO_BY_ID;
         String adminInsertOrUpdate = ADMIN_INSERT_OR_UPDATE;
         String adminPage = ADMIN_PAGE;
@@ -605,9 +617,6 @@ public class WebJsonToWebGenerateAdminUtil {
         String adminTree = ADMIN_TREE;
 
         adminController = pageDTO.getFileName();
-
-        pageDTO.getRequestList().stream().filter(RequestDTO::getPageFlag).findFirst()
-            .ifPresent(it -> adminDO.set(it.getReturnRealClass().getSimpleName()));
 
         adminTsxTitle = pageDTO.getTitle();
         adminModalFormTitle = StrUtil.subBefore(pageDTO.getTitle(), MANAGE, false);
@@ -632,12 +641,13 @@ public class WebJsonToWebGenerateAdminUtil {
         }
 
         // 执行替换
+        tempStr = equalsAndReplace(tempStr, adminDeleteName, ADMIN_DELETE_NAME);
         tempStr = equalsAndReplace(tempStr, adminInsertOrUpdate, ADMIN_INSERT_OR_UPDATE);
         tempStr = equalsAndReplace(tempStr, adminInfoById, ADMIN_INFO_BY_ID);
         tempStr = equalsAndReplace(tempStr, adminPage, ADMIN_PAGE);
         tempStr = equalsAndReplace(tempStr, adminDeleteByIdSet, ADMIN_DELETE_BY_ID_SET);
         tempStr = equalsAndReplace(tempStr, adminController, ADMIN_CONTROLLER);
-        tempStr = equalsAndReplace(tempStr, adminDO.get(), ADMIN_DO);
+        tempStr = equalsAndReplace(tempStr, adminDO, ADMIN_DO);
         tempStr = equalsAndReplace(tempStr, adminTsxTitle, ADMIN_TSX_TITLE);
         tempStr = equalsAndReplace(tempStr, adminModalFormTitle, ADMIN_MODAL_FORM_TITLE);
         tempStr = equalsAndReplace(tempStr, adminAddOrderNo, ADMIN_ADD_ORDER_NO);
@@ -648,7 +658,6 @@ public class WebJsonToWebGenerateAdminUtil {
         // 写入内容到文件里
         FileUtil.writeUtf8String(strBuilder.toStringAndReset(), touchFile);
 
-        return adminDO.get();
     }
 
     /**

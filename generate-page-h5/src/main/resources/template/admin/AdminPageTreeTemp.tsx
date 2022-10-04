@@ -176,7 +176,7 @@ export default function () {
                                             ToastSuccess(res.msg)
                                             actionRef.current?.reload()
                                         })
-                                    }, undefined, `确定删除【${currentForm.current.name}】吗？`)
+                                    }, undefined, `确定删除【${currentForm.current.AdminDeleteName}】吗？`)
                                 }}>
                                 删除
                             </Button> : null

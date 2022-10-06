@@ -38,6 +38,7 @@ export default function () {
     return (
         <>
             <ProTable<AdminDO, AdminPageDTO>
+                scroll={{x: 'max-content'}}
                 sticky={{offsetHeader: CommonConstant.NAV_TOP_HEIGHT}}
                 actionRef={actionRef}
                 rowKey={"id"}

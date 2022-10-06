@@ -34,7 +34,7 @@ export default function () {
     return (
         <>
             <ProTable<AdminDO, AdminPageDTO>
-                scroll={{y: CommonConstant.TABLE_HEIGHT}}
+                sticky={{offsetHeader: CommonConstant.NAV_TOP_HEIGHT}}
                 actionRef={actionRef}
                 rowKey={"id"}
                 pagination={{

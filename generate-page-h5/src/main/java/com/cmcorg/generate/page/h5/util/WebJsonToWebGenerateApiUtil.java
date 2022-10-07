@@ -25,7 +25,7 @@ public class WebJsonToWebGenerateApiUtil {
 
     private static final String TEMPLATE_NAME =
         "D:/GitHub/CmcOrg/generate-page-h5-v1/generate-page-h5/src/main/resources/template/";
-    private static final String WEB_SRC_API_PATH = "D:/GitHub/CmcOrg/frontend-h5-v1/src/api/";
+    private static final String WEB_SRC_API_PATH = "D:/GitHub/CmcOrg/frontend-h5-web-v1/src/api/";
 
     private static final String WEB_SRC_API_SUF = ".ts"; // api文件的后缀
 

@@ -15,7 +15,7 @@ public class WebJsonToWebUtil {
     /**
      * 生成前端页面
      */
-    public static void exec() {
+    public static void exec(String path) {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -30,7 +30,7 @@ public class WebJsonToWebUtil {
         WebDTO webDTO = JavaToWebJsonUtil.doJavaToWebJson();
 
         if (webDTO != null) {
-            doExec(webDTO, fileName); // 生成前端页面
+            doExec(webDTO, fileName, path); // 生成前端页面
         }
 
         long interval = timer.interval();
@@ -40,10 +40,13 @@ public class WebJsonToWebUtil {
     /**
      * 生成前端页面
      */
-    private static void doExec(WebDTO webDTO, String fileName) {
+    private static void doExec(WebDTO webDTO, String fileName, String path) {
 
+        WebJsonToWebGenerateApiUtil.WEB_SRC_API_PATH = path + "src/api/";
         // 生成 api文件
         WebJsonToWebGenerateApiUtil.generateApi(webDTO);
+
+        WebJsonToWebGenerateAdminUtil.PAGE_PATH = path + "src/page/";
         // 生成 admin相关文件
         WebJsonToWebGenerateAdminUtil.generateAdmin(webDTO, fileName);
 

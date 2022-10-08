@@ -109,7 +109,9 @@ export default function () {
                             <Button
                                 key="1"
                                 onClick={() => {
-                                    props.reset();
+                                    ExecConfirm(async () => {
+                                        props.reset();
+                                    }, undefined, "确定重置表单吗？")
                                 }}
                             >
                                 重置

@@ -33,6 +33,7 @@ public enum ColumnTypeRefEnum {
     INT("int", "int", "number"), //
     BIGINT("bigint", "Long", "number"), //
     LONG("bigint", "long", "number"), //
+    DECIMAL("decimal", "BigDecimal", "number"), //
     VARCHAR("varchar", "String", "string"), //
     TEXT("text", "String", "string"), //
     LONGTEXT("longtext", "String", "string"), //

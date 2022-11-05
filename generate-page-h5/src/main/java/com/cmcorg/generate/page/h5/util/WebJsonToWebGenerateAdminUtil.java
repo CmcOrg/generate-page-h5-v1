@@ -80,7 +80,7 @@ public class WebJsonToWebGenerateAdminUtil {
         "\n        {\n            title: '{}',\n            dataIndex: '{}',\n{}        },\n";
     // 一般的 table json字段模板
     private static final String ADMIN_TABLE_JSON_ITEM_NORMAL =
-        "\n    {title: '{}', dataIndex: '{}', ellipsis: true, width: 70,{}},\n";
+        "\n    {title: '{}', dataIndex: '{}', ellipsis: true, width: 90,{}},\n";
     // tooltip
     private static final String ADMIN_JSON_ITEM_TOOLTIP = "            tooltip: '{}',\n";
     // formItemProps

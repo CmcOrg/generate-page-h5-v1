@@ -1,6 +1,6 @@
 import {useRef, useState} from "react";
 import {ActionType, BetaSchemaForm, ColumnsState, ModalForm, ProFormDigit, ProTable} from "@ant-design/pro-components";
-import {Button, Dropdown, Form, Menu, Space} from "antd";
+import {Button, Dropdown, Form, Space} from "antd";
 import {ColumnHeightOutlined, EllipsisOutlined, PlusOutlined, VerticalAlignMiddleOutlined} from "@ant-design/icons/lib";
 import {
     AdminAddOrderNo,
@@ -69,8 +69,8 @@ export default function () {
                 }}
                 toolbar={{
                     title:
-                        <Dropdown
-                            overlay={<Menu items={[
+                        <Dropdown menu={{
+                            items: [
                                 {
                                     key: '1',
                                     label: <a onClick={() => {
@@ -89,8 +89,8 @@ export default function () {
                                     </a>,
                                     icon: <VerticalAlignMiddleOutlined/>
                                 },
-                            ]}/>}
-                        >
+                            ]
+                        }}>
                             <Button size={"small"} icon={<EllipsisOutlined/>}/>
                         </Dropdown>,
                     actions: [

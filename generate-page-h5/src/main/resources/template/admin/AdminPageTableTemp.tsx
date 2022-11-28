@@ -95,7 +95,7 @@ export default function () {
                     gutter: 16
                 }}
                 colProps={{
-                    span: 12
+                    span: 8
                 }}
                 modalProps={{
                     maskClosable: false,

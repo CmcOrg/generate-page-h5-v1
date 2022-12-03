@@ -120,12 +120,13 @@ public class JavaToWebJsonUtil {
             webDTO.getPageList().add(pageDTO); // 添加页面
 
             // 添加：页面类型和数组下标
-            Set<Integer> orDefaultSet = webDTO.getPageTypeMap().getOrDefault(pageDTO.getType(), new HashSet<>());
-            orDefaultSet.add(webDTO.getPageList().size() - 1);
-            webDTO.getPageTypeMap().put(pageDTO.getType(), orDefaultSet);
+            Set<Integer> set = webDTO.getPageTypeMap().computeIfAbsent(pageDTO.getType(), k -> new HashSet<>());
+
+            set.add(webDTO.getPageList().size() - 1);
 
             // 添加请求
             JavaToWebJsonUtil.addRequest(clazz, pageDTO);
+
         }
 
         return webDTO;
